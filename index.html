@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdoul Shop - Boutique en ligne</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#2563eb',secondary:'#7c3aed'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.hero-bg {
+background-image: url('https://readdy.ai/api/search-image?query=Modern%20elegant%20boutique%20storefront%20with%20warm%20lighting%2C%20luxury%20retail%20interior%20design%2C%20sophisticated%20shopping%20environment%20with%20clean%20white%20background%2C%20premium%20fashion%20store%20atmosphere%2C%20minimalist%20commercial%20space%20with%20golden%20hour%20lighting&width=1920&height=800&seq=hero-bg-001&orientation=landscape');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+}
+.admin-session {
+display: none;
+}
+.admin-session.active {
+display: block;
+}
+.main-content.hidden {
+display: none;
+}
+.login-modal {
+display: none;
+}
+.login-modal.active {
+display: flex;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<header class="bg-white shadow-sm sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<h1 class="text-2xl font-['Pacifico'] text-primary">Abdoul Shop</h1>
+</div>
+<nav class="hidden md:flex space-x-8">
+<a href="#accueil" class="text-gray-700 hover:text-primary transition-colors">Accueil</a>
+<a href="#produits" class="text-gray-700 hover:text-primary transition-colors">Produits</a>
+<a href="#services" class="text-gray-700 hover:text-primary transition-colors">Services</a>
+<a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
+</nav>
+<button id="admin-btn" class="text-sm text-gray-500 hover:text-primary transition-colors !rounded-button whitespace-nowrap">
+<div class="w-5 h-5 flex items-center justify-center mr-2 inline-block">
+<i class="ri-admin-line"></i>
+</div>
+Administration
+</button>
+</div>
+</div>
+</header>
+<div id="login-modal" class="login-modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+<div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+<div class="text-center mb-6">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-4">
+<i class="ri-shield-keyhole-line text-2xl text-primary"></i>
+</div>
+<h2 class="text-2xl font-bold text-gray-900">Accès Administrateur</h2>
+<p class="text-gray-600 mt-2">Veuillez saisir le code d'accès</p>
+</div>
+<form id="login-form">
+<div class="mb-4">
+<label for="admin-code" class="block text-sm font-medium text-gray-700 mb-2">Code d'accès</label>
+<input type="password" id="admin-code" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm" placeholder="Entrez le code d'accès">
+</div>
+<div id="error-message" class="text-red-500 text-sm mb-4 hidden">Code d'accès incorrect</div>
+<div class="flex space-x-4">
+<button type="button" id="cancel-btn" class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors !rounded-button whitespace-nowrap">Annuler</button>
+<button type="submit" class="flex-1 px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors !rounded-button whitespace-nowrap">Se connecter</button>
+</div>
+</form>
+</div>
+</div>
+<main id="main-content" class="main-content">
+<section id="accueil" class="min-h-screen flex items-center relative overflow-hidden">
+<div class="slideshow absolute inset-0">
+<div class="slide absolute inset-0 bg-cover bg-center transition-opacity duration-1000" style="background-image: url('https://readdy.ai/api/search-image?query=Modern%20luxury%20boutique%20interior%20with%20elegant%20displays%2C%20soft%20warm%20lighting%2C%20high-end%20retail%20space%20with%20minimalist%20design%2C%20premium%20shopping%20environment%20with%20marble%20floors%20and%20crystal%20chandeliers&width=1920&height=800&seq=slide1&orientation=landscape')"></div>
+<div class="slide absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0" style="background-image: url('https://readdy.ai/api/search-image?query=Fashion%20boutique%20storefront%20with%20contemporary%20architecture%2C%20glass%20facade%20illuminated%20at%20dusk%2C%20upscale%20retail%20exterior%20with%20modern%20signage%20and%20window%20displays&width=1920&height=800&seq=slide2&orientation=landscape')"></div>
+<div class="slide absolute inset-0 bg-cover bg-center transition-opacity duration-1000 opacity-0" style="background-image: url('https://readdy.ai/api/search-image?query=Luxury%20shopping%20mall%20interior%20with%20grand%20atrium%2C%20modern%20design%20with%20natural%20light%2C%20high-end%20retail%20space%20with%20marble%20and%20glass%20details&width=1920&height=800&seq=slide3&orientation=landscape')"></div>
+</div>
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+<div class="max-w-2xl">
+<h1 class="text-5xl md:text-6xl font-bold text-white mb-6">Bienvenue chez Abdoul Shop</h1>
+<p class="text-xl text-white/90 mb-8 leading-relaxed">Découvrez notre collection exceptionnelle de produits de qualité, soigneusement sélectionnés pour répondre à tous vos besoins. Une expérience shopping unique vous attend.</p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors !rounded-button whitespace-nowrap font-semibold">Découvrir nos produits</button>
+<button class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg hover:bg-white/20 transition-colors !rounded-button whitespace-nowrap font-semibold">En savoir plus</button>
+</div>
+</div>
+</div>
+</section>
+<section id="produits" class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Nos Produits Phares</h2>
+<p class="text-xl text-gray-600 max-w-2xl mx-auto">Une sélection rigoureuse de produits de haute qualité pour satisfaire tous vos besoins</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
+<!-- Les produits seront chargés dynamiquement ici -->
+</div>
+</div>
+</section>
+<section id="services" class="py-20 bg-gray-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Nos Services</h2>
+<p class="text-xl text-gray-600 max-w-2xl mx-auto">Un service client exceptionnel pour une expérience d'achat parfaite</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="text-center p-8 bg-white rounded-xl shadow-sm">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+<i class="ri-truck-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Livraison Rapide</h3>
+<p class="text-gray-600">Livraison express en 24-48h partout en France métropolitaine</p>
+</div>
+<div class="text-center p-8 bg-white rounded-xl shadow-sm">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+<i class="ri-shield-check-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Garantie Qualité</h3>
+<p class="text-gray-600">Tous nos produits sont garantis et certifiés conformes</p>
+</div>
+<div class="text-center p-8 bg-white rounded-xl shadow-sm">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mx-auto mb-6">
+<i class="ri-customer-service-2-line text-2xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Support 24/7</h3>
+<p class="text-gray-600">Équipe dédiée disponible pour vous accompagner</p>
+</div>
+</div>
+</div>
+</section>
+<section id="contact" class="py-20 bg-white">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-bold text-gray-900 mb-4">Contactez-nous</h2>
+<p class="text-xl text-gray-600 max-w-2xl mx-auto">Une question ? Besoin d'aide ? Notre équipe est là pour vous</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<div>
+<div class="space-y-8">
+<div class="flex items-start space-x-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-map-pin-line text-xl text-primary"></i>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Adresse</h3>
+<p class="text-gray-600"><a href="https://maps.app.goo.gl/fEfbkojPpbY6RgeF6?g_st=am" target="_blank" class="hover:text-primary">Voir sur Google Maps</a></p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-phone-line text-xl text-primary"></i>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Téléphone</h3>
+<p class="text-gray-600">+228 70453629 / +228 93644122</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-mail-line text-xl text-primary"></i>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Email</h3>
+<p class="text-gray-600">Halymou228@gmail.com</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-lg">
+<i class="ri-whatsapp-line text-xl text-primary"></i>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">WhatsApp</h3>
+<p class="text-gray-600"><a href="https://chat.whatsapp.com/HCRWi5R107jLnG1Zu5c31v" target="_blank" class="hover:text-primary">Rejoindre notre groupe WhatsApp</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-8 rounded-xl">
+<form class="space-y-6">
+<div>
+<label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nom complet</label>
+<input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div>
+<label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+<input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div>
+<label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+<textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"></textarea>
+</div>
+<button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors !rounded-button whitespace-nowrap font-semibold">Envoyer le message</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div id="admin-panel" class="admin-session">
+<header class="bg-white shadow-sm sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<h1 class="text-2xl font-['Pacifico'] text-primary">Abdoul Shop</h1>
+<span class="ml-4 text-sm text-gray-500">- Administration</span>
+</div>
+<button id="logout-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors !rounded-button whitespace-nowrap">
+<div class="w-4 h-4 flex items-center justify-center mr-2 inline-block">
+<i class="ri-logout-box-line"></i>
+</div>
+Déconnexion
+</button>
+</div>
+</div>
+</header>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-gray-900 mb-2">Tableau de bord</h2>
+<p class="text-gray-600">Gérez vos produits et votre inventaire</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-gray-600">Total Produits</p>
+<p class="text-2xl font-bold text-gray-900">247</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg">
+<i class="ri-shopping-bag-line text-xl text-blue-600"></i>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-gray-600">En Stock</p>
+<p class="text-2xl font-bold text-green-600">189</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg">
+<i class="ri-checkbox-circle-line text-xl text-green-600"></i>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-gray-600">Stock Faible</p>
+<p class="text-2xl font-bold text-orange-600">23</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-orange-100 rounded-lg">
+<i class="ri-error-warning-line text-xl text-orange-600"></i>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-gray-600">Rupture</p>
+<p class="text-2xl font-bold text-red-600">35</p>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-lg">
+<i class="ri-close-circle-line text-xl text-red-600"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-semibold text-gray-900">Ajouter un nouveau produit</h3>
+<button type="button" onclick="productManager.resetToDefaults()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors !rounded-button whitespace-nowrap text-sm">Réinitialiser aux produits par défaut</button>
+</div>
+<form id="add-product-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Nom du produit</label>
+<input type="text" id="product-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Prix (CFA)</label>
+<input type="number" id="product-price" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+<div class="relative">
+<button type="button" id="category-btn" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm text-left bg-white pr-8">Sélectionner une catégorie</button>
+<div class="w-4 h-4 flex items-center justify-center absolute right-3 top-1/2 transform -translate-y-1/2">
+<i class="ri-arrow-down-s-line text-gray-400"></i>
+</div>
+<div id="category-dropdown" class="hidden absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+<div class="py-1">
+<button type="button" class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" data-value="Maroquinerie">Maroquinerie</button>
+<button type="button" class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" data-value="Vêtements">Vêtements</button>
+<button type="button" class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" data-value="Électronique">Électronique</button>
+<button type="button" class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" data-value="Accessoires">Accessoires</button>
+<button type="button" class="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100" data-value="Chaussures">Chaussures</button>
+</div>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+<input type="number" id="product-stock" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div class="md:col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-2">Image du produit (URL)</label>
+<input type="url" id="product-image-url" placeholder="https://example.com/image.jpg" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+</div>
+<div class="md:col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+<textarea id="product-description" rows="3" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"></textarea>
+</div>
+<div class="md:col-span-2">
+<button type="submit" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors !rounded-button whitespace-nowrap font-semibold">Ajouter le produit</button>
+</div>
+</form>
+<div id="add-product-success" class="hidden mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+Produit ajouté avec succès !
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-semibold text-gray-900">Gestion des produits</h3>
+<div class="flex space-x-4">
+<div class="relative">
+<input type="text" placeholder="Rechercher un produit..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+<div class="w-4 h-4 flex items-center justify-center absolute left-3 top-1/2 transform -translate-y-1/2">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table id="admin-products-table" class="w-full">
+<thead>
+<tr class="border-b border-gray-200">
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Produit</th>
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Catégorie</th>
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Prix</th>
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Stock</th>
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Statut</th>
+<th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- Le contenu sera généré dynamiquement -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<footer class="bg-gray-900 text-white py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<h3 class="text-2xl font-['Pacifico'] mb-4">Abdoul Shop</h3>
+<p class="text-gray-400 mb-4">Votre boutique de confiance pour des produits de qualité exceptionnelle.</p>
+<div class="flex space-x-4">
+<div class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-lg hover:bg-gray-700 cursor-pointer">
+<i class="ri-facebook-fill"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-lg hover:bg-gray-700 cursor-pointer">
+<i class="ri-instagram-line"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded-lg hover:bg-gray-700 cursor-pointer">
+<i class="ri-twitter-line"></i>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Navigation</h4>
+<ul class="space-y-2 text-gray-400">
+<li><a href="#accueil" class="hover:text-white transition-colors">Accueil</a></li>
+<li><a href="#produits" class="hover:text-white transition-colors">Produits</a></li>
+<li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+<li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Services</h4>
+<ul class="space-y-2 text-gray-400">
+<li>Livraison express</li>
+<li>Retours gratuits</li>
+<li>Garantie produits</li>
+<li>Support client</li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Contact</h4>
+<div class="space-y-2 text-gray-400">
+<p><a href="https://maps.app.goo.gl/fEfbkojPpbY6RgeF6?g_st=am" target="_blank" class="hover:text-primary">Voir sur Google Maps</a></p>
+<p>+228 70453629 / +228 93644122</p>
+<p>Halymou228@gmail.com</p>
+<p><a href="https://chat.whatsapp.com/HCRWi5R107jLnG1Zu5c31v" target="_blank" class="hover:text-primary">Rejoindre notre groupe WhatsApp</a></p>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+<p>&copy; 2025 Abdoul Shop. Tous droits réservés.</p>
+<p class="mt-2">Réalisé par Outis-J Code le 23 juillet 2025</p>
+</div>
+</div>
+</footer>
+<script id="image-upload">
+document.addEventListener('DOMContentLoaded', function() {
+  const imageUploadBtn = document.getElementById('product-image');
+  const imagePreview = document.getElementById('image-preview');
+  const previewImage = imagePreview.querySelector('img');
+  const removeImageBtn = document.getElementById('remove-image');
+
+  imageUploadBtn.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+        imagePreview.classList.remove('hidden');
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removeImageBtn.addEventListener('click', function() {
+    imageUploadBtn.value = '';
+    previewImage.src = '';
+    imagePreview.classList.add('hidden');
+  });
+});
+</script>
+
+
+<script id="admin-auth">
+document.addEventListener('DOMContentLoaded', function() {
+const adminBtn = document.getElementById('admin-btn');
+const loginModal = document.getElementById('login-modal');
+const loginForm = document.getElementById('login-form');
+const cancelBtn = document.getElementById('cancel-btn');
+const adminCodeInput = document.getElementById('admin-code');
+const errorMessage = document.getElementById('error-message');
+const mainContent = document.getElementById('main-content');
+const adminPanel = document.getElementById('admin-panel');
+const logoutBtn = document.getElementById('logout-btn');
+adminBtn.addEventListener('click', function() {
+loginModal.classList.add('active');
+adminCodeInput.focus();
+});
+cancelBtn.addEventListener('click', function() {
+loginModal.classList.remove('active');
+adminCodeInput.value = '';
+errorMessage.classList.add('hidden');
+});
+loginForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const code = adminCodeInput.value.trim();
+if (code === 'Batchana') {
+loginModal.classList.remove('active');
+mainContent.classList.add('hidden');
+adminPanel.classList.add('active');
+adminCodeInput.value = '';
+errorMessage.classList.add('hidden');
+// Mettre à jour le tableau d'administration
+if (productManager) {
+productManager.updateAdminTable();
+productManager.resetCategoryDropdown();
+}
+} else {
+errorMessage.classList.remove('hidden');
+adminCodeInput.value = '';
+adminCodeInput.focus();
+}
+});
+logoutBtn.addEventListener('click', function() {
+adminPanel.classList.remove('active');
+mainContent.classList.remove('hidden');
+});
+loginModal.addEventListener('click', function(e) {
+if (e.target === loginModal) {
+loginModal.classList.remove('active');
+adminCodeInput.value = '';
+errorMessage.classList.add('hidden');
+}
+});
+});
+</script>
+<script id="whatsapp-integration">
+function sendToWhatsApp(product) {
+const message = encodeURIComponent(`Je suis intéressé par: ${product}`);
+const whatsappUrl = `https://wa.me/22893644122?text=${message}`;
+window.open(whatsappUrl, '_blank');
+}
+</script>
+<script id="slideshow">
+document.addEventListener('DOMContentLoaded', function() {
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+function nextSlide() {
+slides[currentSlide].classList.add('opacity-0');
+currentSlide = (currentSlide + 1) % slides.length;
+slides[currentSlide].classList.remove('opacity-0');
+}
+setInterval(nextSlide, 5000);
+});
+</script>
+<script id="smooth-scroll">
+document.addEventListener('DOMContentLoaded', function() {
+const links = document.querySelectorAll('a[href^="#"]');
+links.forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+targetElement.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+});
+</script>
+
+<script id="product-management">
+// Système de gestion des produits
+class ProductManager {
+constructor() {
+this.products = this.loadProducts();
+this.init();
+}
+
+// Charger les produits depuis le localStorage
+loadProducts() {
+const savedProducts = localStorage.getItem('abdoulShopProducts');
+if (savedProducts) {
+return JSON.parse(savedProducts);
+}
+// Produits par défaut
+return [
+{
+id: 1,
+name: 'Sacs à Main Premium',
+description: 'Collection exclusive de sacs en cuir véritable, alliant élégance et fonctionnalité',
+price: 58000,
+category: 'Maroquinerie',
+stock: 15,
+imageUrl: 'https://readdy.ai/api/search-image?query=Premium%20leather%20handbag%20elegant%20design%20luxury%20fashion%20accessory%20clean%20white%20background%20professional%20product%20photography%20high%20quality%20craftsmanship&width=400&height=300&seq=product-001&orientation=landscape'
+},
+{
+id: 2,
+name: 'Vêtements Tendance',
+description: 'Mode contemporaine pour homme et femme, styles variés et matières de qualité',
+price: 29500,
+category: 'Vêtements',
+stock: 25,
+imageUrl: 'https://readdy.ai/api/search-image?query=Stylish%20casual%20clothing%20fashion%20apparel%20modern%20design%20trendy%20outfit%20clean%20white%20background%20professional%20product%20photography%20high%20quality%20fabric&width=400&height=300&seq=product-002&orientation=landscape'
+},
+{
+id: 3,
+name: 'Accessoires Tech',
+description: 'Dernières innovations technologiques et accessoires connectés',
+price: 16500,
+category: 'Électronique',
+stock: 30,
+imageUrl: 'https://readdy.ai/api/search-image?query=Electronic%20gadgets%20modern%20technology%20devices%20smartphone%20accessories%20clean%20white%20background%20professional%20product%20photography%20innovative%20design&width=400&height=300&seq=product-003&orientation=landscape'
+}
+];
+}
+
+// Sauvegarder les produits dans le localStorage
+saveProducts() {
+localStorage.setItem('abdoulShopProducts', JSON.stringify(this.products));
+}
+
+// Initialiser le système
+init() {
+this.displayProducts();
+this.setupEventListeners();
+}
+
+// Afficher les produits dans la grille
+displayProducts() {
+const productsGrid = document.getElementById('products-grid');
+if (!productsGrid) return;
+
+productsGrid.innerHTML = '';
+
+this.products.forEach(product => {
+const productCard = this.createProductCard(product);
+productsGrid.appendChild(productCard);
+});
+}
+
+// Créer une carte de produit
+createProductCard(product) {
+const card = document.createElement('div');
+card.className = 'bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow';
+card.innerHTML = `
+<div class="h-64 bg-cover bg-center" style="background-image: url('${product.imageUrl || 'https://via.placeholder.com/400x300?text=Image+non+disponible'}')"></div>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900 mb-2">${product.name}</h3>
+<p class="text-gray-600 mb-4">${product.description}</p>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold text-primary">À partir de ${product.price.toLocaleString()} CFA</span>
+<button onclick="sendToWhatsApp('${product.name} - ${product.price.toLocaleString()} CFA')" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors !rounded-button whitespace-nowrap">Commander</button>
+</div>
+</div>
+`;
+return card;
+}
+
+// Ajouter un nouveau produit
+addProduct(productData) {
+const newProduct = {
+id: Date.now(), // Utiliser timestamp comme ID unique
+name: productData.name,
+description: productData.description,
+price: parseInt(productData.price),
+category: productData.category,
+stock: parseInt(productData.stock),
+imageUrl: productData.imageUrl || 'https://via.placeholder.com/400x300?text=Image+non+disponible'
+};
+
+this.products.push(newProduct);
+this.saveProducts();
+this.displayProducts();
+this.updateAdminTable();
+}
+
+// Supprimer un produit
+deleteProduct(productId) {
+this.products = this.products.filter(product => product.id !== productId);
+this.saveProducts();
+this.displayProducts();
+this.updateAdminTable();
+}
+
+// Mettre à jour le tableau d'administration
+updateAdminTable() {
+const tableBody = document.querySelector('#admin-products-table tbody');
+if (!tableBody) return;
+
+tableBody.innerHTML = '';
+
+this.products.forEach(product => {
+const row = document.createElement('tr');
+row.className = 'border-b border-gray-100';
+row.innerHTML = `
+<td class="py-4 px-4">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 bg-gray-200 rounded-lg" style="background-image: url('${product.imageUrl}'); background-size: cover; background-position: center;"></div>
+<div>
+<p class="font-medium text-gray-900">${product.name}</p>
+<p class="text-sm text-gray-500">ID: ${product.id}</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 text-gray-700">${product.category}</td>
+<td class="py-4 px-4 text-gray-700">${product.price.toLocaleString()} CFA</td>
+<td class="py-4 px-4 text-gray-700">${product.stock}</td>
+<td class="py-4 px-4">
+<span class="px-2 py-1 ${product.stock > 10 ? 'bg-green-100 text-green-800' : product.stock > 0 ? 'bg-orange-100 text-orange-800' : 'bg-red-100 text-red-800'} text-xs rounded-full">
+${product.stock > 10 ? 'En stock' : product.stock > 0 ? 'Stock faible' : 'Rupture'}
+</span>
+</td>
+<td class="py-4 px-4">
+<div class="flex space-x-2">
+<button onclick="productManager.deleteProduct(${product.id})" class="p-2 text-red-600 hover:bg-red-50 rounded-lg !rounded-button">
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-delete-bin-line"></i>
+</div>
+</button>
+</div>
+</td>
+`;
+tableBody.appendChild(row);
+});
+
+// Mettre à jour les statistiques du tableau de bord
+this.updateDashboardStats();
+}
+
+// Mettre à jour les statistiques du tableau de bord
+updateDashboardStats() {
+const totalProducts = this.products.length;
+const inStock = this.products.filter(p => p.stock > 10).length;
+const lowStock = this.products.filter(p => p.stock > 0 && p.stock <= 10).length;
+const outOfStock = this.products.filter(p => p.stock === 0).length;
+
+// Mettre à jour les éléments du tableau de bord
+const totalElement = document.querySelector('.bg-white.p-6.rounded-xl.shadow-sm:nth-child(1) .text-2xl');
+const inStockElement = document.querySelector('.bg-white.p-6.rounded-xl.shadow-sm:nth-child(2) .text-2xl');
+const lowStockElement = document.querySelector('.bg-white.p-6.rounded-xl.shadow-sm:nth-child(3) .text-2xl');
+const outOfStockElement = document.querySelector('.bg-white.p-6.rounded-xl.shadow-sm:nth-child(4) .text-2xl');
+
+if (totalElement) totalElement.textContent = totalProducts;
+if (inStockElement) inStockElement.textContent = inStock;
+if (lowStockElement) lowStockElement.textContent = lowStock;
+if (outOfStockElement) outOfStockElement.textContent = outOfStock;
+}
+
+// Réinitialiser aux produits par défaut
+resetToDefaults() {
+if (confirm('Êtes-vous sûr de vouloir réinitialiser aux produits par défaut ? Cela supprimera tous les produits ajoutés.')) {
+localStorage.removeItem('abdoulShopProducts');
+this.products = this.loadProducts();
+this.saveProducts();
+this.displayProducts();
+this.updateAdminTable();
+alert('Produits réinitialisés avec succès !');
+}
+}
+
+// Réinitialiser le dropdown des catégories
+resetCategoryDropdown() {
+const categoryBtn = document.getElementById('category-btn');
+if (categoryBtn) {
+categoryBtn.textContent = 'Sélectionner une catégorie';
+}
+}
+
+// Configurer les écouteurs d'événements
+setupEventListeners() {
+const addProductForm = document.getElementById('add-product-form');
+if (addProductForm) {
+addProductForm.addEventListener('submit', (e) => {
+e.preventDefault();
+this.handleAddProduct();
+});
+}
+
+// Gestion du dropdown de catégorie
+const categoryBtn = document.getElementById('category-btn');
+const categoryDropdown = document.getElementById('category-dropdown');
+if (categoryBtn && categoryDropdown) {
+// Supprimer les anciens event listeners pour éviter les doublons
+categoryBtn.removeEventListener('click', this.categoryClickHandler);
+document.removeEventListener('click', this.documentClickHandler);
+
+// Créer les nouveaux handlers
+this.categoryClickHandler = (e) => {
+e.stopPropagation();
+categoryDropdown.classList.toggle('hidden');
+};
+
+this.documentClickHandler = (e) => {
+if (!categoryBtn.contains(e.target) && !categoryDropdown.contains(e.target)) {
+categoryDropdown.classList.add('hidden');
+}
+};
+
+// Ajouter les event listeners
+categoryBtn.addEventListener('click', this.categoryClickHandler);
+document.addEventListener('click', this.documentClickHandler);
+
+const categoryOptions = categoryDropdown.querySelectorAll('button');
+categoryOptions.forEach(option => {
+option.removeEventListener('click', this.optionClickHandler);
+this.optionClickHandler = function() {
+const value = this.getAttribute('data-value');
+categoryBtn.textContent = value;
+categoryDropdown.classList.add('hidden');
+};
+option.addEventListener('click', this.optionClickHandler);
+});
+}
+}
+
+// Gérer l'ajout d'un produit
+handleAddProduct() {
+const form = document.getElementById('add-product-form');
+const successMessage = document.getElementById('add-product-success');
+
+const productData = {
+name: document.getElementById('product-name').value,
+price: document.getElementById('product-price').value,
+category: document.getElementById('category-btn').textContent,
+stock: document.getElementById('product-stock').value,
+imageUrl: document.getElementById('product-image-url').value,
+description: document.getElementById('product-description').value
+};
+
+// Validation
+if (productData.category === 'Sélectionner une catégorie') {
+alert('Veuillez sélectionner une catégorie');
+return;
+}
+
+if (!productData.name || !productData.price || !productData.stock || !productData.description) {
+alert('Veuillez remplir tous les champs obligatoires');
+return;
+}
+
+// Ajouter le produit
+this.addProduct(productData);
+
+// Réinitialiser le formulaire
+form.reset();
+this.resetCategoryDropdown();
+
+// Afficher le message de succès
+successMessage.classList.remove('hidden');
+setTimeout(() => {
+successMessage.classList.add('hidden');
+}, 3000);
+}
+}
+
+// Initialiser le gestionnaire de produits
+let productManager;
+document.addEventListener('DOMContentLoaded', function() {
+productManager = new ProductManager();
+});
+</script>
+</body>
+</html>
